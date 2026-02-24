@@ -37,14 +37,14 @@
  * - `AWS_SES_FROM_EMAIL` (optional default sender)
  */
 
-import { SesAdapter } from './adapter.js';
-import { SesNotInitializedError } from './errors.js';
+import { SesAdapter } from './adapter';
+import { SesNotInitializedError } from './errors';
 import type {
   SendEmailOptions,
   SendEmailResult,
   SendEmailWithAttachmentsOptions,
   SesAdapterConfig,
-} from './types.js';
+} from './types';
 
 // ─── Singleton state ──────────────────────────────────────────────────────────
 
@@ -285,7 +285,7 @@ export function getRegion(): string {
  * creating multiple independent instances or building framework integrations
  * (e.g., a NestJS module).
  */
-export { SesAdapter } from './adapter.js';
+export { SesAdapter } from './adapter';
 
 /** Re-export all custom error classes for consumer-side `instanceof` checks. */
 export {
@@ -293,7 +293,7 @@ export {
   SesNotInitializedError,
   SesSendError,
   SesValidationError,
-} from './errors.js';
+} from './errors';
 
 /** Re-export all public types and interfaces. */
 export type {
@@ -302,4 +302,4 @@ export type {
   SendEmailResult,
   SendEmailWithAttachmentsOptions,
   SesAdapterConfig,
-} from './types.js';
+} from './types';

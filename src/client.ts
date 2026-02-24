@@ -5,7 +5,7 @@
  */
 
 import { SESClient } from '@aws-sdk/client-ses';
-import type { ResolvedSesAdapterConfig } from './types.js';
+import type { ResolvedSesAdapterConfig } from './types';
 
 /**
  * Creates and returns a configured {@link SESClient} instance using the
