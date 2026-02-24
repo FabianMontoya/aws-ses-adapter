@@ -1,4 +1,4 @@
-# aws-ses-adapter
+# @fmontoya/aws-ses-adapter
 
 A lightweight TypeScript adapter that simplifies the [AWS SES](https://aws.amazon.com/ses/) email sending API for Node.js.
 
@@ -10,7 +10,7 @@ A lightweight TypeScript adapter that simplifies the [AWS SES](https://aws.amazo
 
 ## Table of Contents
 
-- [aws-ses-adapter](#aws-ses-adapter)
+- [@fmontoya/aws-ses-adapter](#fmontoyaaws-ses-adapter)
   - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
   - [Prerequisites](#prerequisites)
@@ -40,13 +40,13 @@ A lightweight TypeScript adapter that simplifies the [AWS SES](https://aws.amazo
 
 ```bash
 # npm
-npm install aws-ses-adapter
+npm install @fmontoya/aws-ses-adapter
 
 # pnpm
-pnpm add aws-ses-adapter
+pnpm add @fmontoya/aws-ses-adapter
 
 # yarn
-yarn add aws-ses-adapter
+yarn add @fmontoya/aws-ses-adapter
 ```
 
 > **Requires Node.js 20 or later.**
@@ -66,7 +66,7 @@ yarn add aws-ses-adapter
 ### 1. Initialize once (at application startup)
 
 ```ts
-import { init } from 'aws-ses-adapter';
+import { init } from '@fmontoya/aws-ses-adapter';
 
 init({
   region: 'us-east-1',
@@ -79,7 +79,7 @@ init({
 ### 2. Send emails anywhere in your app
 
 ```ts
-import { sendEmail } from 'aws-ses-adapter';
+import { sendEmail } from '@fmontoya/aws-ses-adapter';
 
 const result = await sendEmail({
   to: 'user@example.com',
@@ -133,7 +133,7 @@ init();
 Initializes the adapter singleton. Must be called **once** before any send function.
 
 ```ts
-import { init } from 'aws-ses-adapter';
+import { init } from '@fmontoya/aws-ses-adapter';
 
 init({
   region: 'us-east-1',
@@ -192,7 +192,7 @@ const result = await sendEmail({
 Sends an email with one or more file attachments. The MIME message is constructed automatically.
 
 ```ts
-import { sendEmailWithAttachments } from 'aws-ses-adapter';
+import { sendEmailWithAttachments } from '@fmontoya/aws-ses-adapter';
 import { readFileSync } from 'fs';
 
 const result = await sendEmailWithAttachments({
@@ -231,7 +231,7 @@ const result = await sendEmailWithAttachments({
 Sends a fully-formed raw MIME message when you need complete control over the email format.
 
 ```ts
-import { sendRawEmail } from 'aws-ses-adapter';
+import { sendRawEmail } from '@fmontoya/aws-ses-adapter';
 
 const mime = [
   'From: sender@example.com',
@@ -258,7 +258,7 @@ import {
   hasDefaultFrom,
   getDefaultFrom,
   getRegion,
-} from 'aws-ses-adapter';
+} from '@fmontoya/aws-ses-adapter';
 
 isInitialized(); // boolean — true if init() has been called
 hasDefaultFrom(); // boolean — true if a defaultFrom address is configured
@@ -273,7 +273,7 @@ getRegion(); // string — the configured AWS region, e.g. 'us-east-1'
 For advanced use cases — such as managing multiple independent instances or building framework integrations (e.g. NestJS modules) — you can instantiate `SesAdapter` directly:
 
 ```ts
-import { SesAdapter } from 'aws-ses-adapter';
+import { SesAdapter } from '@fmontoya/aws-ses-adapter';
 
 const adapter = new SesAdapter({
   region: 'eu-west-1',
@@ -311,7 +311,7 @@ import {
   SesConfigError,
   SesValidationError,
   SesSendError,
-} from 'aws-ses-adapter';
+} from '@fmontoya/aws-ses-adapter';
 
 try {
   await sendEmail({
@@ -342,7 +342,7 @@ try {
 ```ts
 // app.ts
 import express from 'express';
-import { init } from 'aws-ses-adapter';
+import { init } from '@fmontoya/aws-ses-adapter';
 
 init(); // reads credentials from environment variables
 
@@ -355,7 +355,7 @@ app.listen(3000);
 ```ts
 // routes/contact.ts
 import { Router } from 'express';
-import { sendEmail } from 'aws-ses-adapter';
+import { sendEmail } from '@fmontoya/aws-ses-adapter';
 
 const router = Router();
 
@@ -390,7 +390,7 @@ import { EmailService } from './email.service';
     {
       provide: 'SES_ADAPTER',
       useFactory: () => {
-        const { SesAdapter } = require('aws-ses-adapter');
+        const { SesAdapter } = require('@fmontoya/aws-ses-adapter');
         return new SesAdapter({
           region: process.env.AWS_SES_REGION,
           accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -409,7 +409,7 @@ export class EmailModule {}
 ```ts
 // email/email.service.ts
 import { Inject, Injectable } from '@nestjs/common';
-import type { SesAdapter, SendEmailOptions } from 'aws-ses-adapter';
+import type { SesAdapter, SendEmailOptions } from '@fmontoya/aws-ses-adapter';
 
 @Injectable()
 export class EmailService {
@@ -434,7 +434,7 @@ import type {
   SendEmailWithAttachmentsOptions,
   EmailAttachment,
   SendEmailResult,
-} from 'aws-ses-adapter';
+} from '@fmontoya/aws-ses-adapter';
 ```
 
 ---

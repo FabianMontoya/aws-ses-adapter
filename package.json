@@ -1,8 +1,11 @@
 {
-  "name": "aws-ses-adapter",
+  "name": "@fmontoya/aws-ses-adapter",
   "version": "1.0.0",
-  "description": "A simple adapter to simplify the AWS SES email sending API for Node.js",
-  "author": "https://github.com/FabianMontoya",
+  "description": "A simple adapter to simplify the AWS SES email sending API",
+  "author": "FabianMontoya <https://github.com/FabianMontoya>",
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/FabianMontoya/aws-ses-adapter.git"
