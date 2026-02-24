@@ -1,0 +1,4 @@
+echo "\n📝 Running pre-commit validations...\n"
+
+echo "\n🧹 Formatting files with Prettier and running ESLint validations...\n"
+pnpm lint-staged
