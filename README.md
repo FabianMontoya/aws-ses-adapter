@@ -37,6 +37,7 @@ A lightweight TypeScript adapter that simplifies the [AWS SES](https://aws.amazo
     - [Express.js](#expressjs)
     - [NestJS](#nestjs)
   - [TypeScript Types](#typescript-types)
+  - [Contributing](#contributing)
   - [License](#license)
 
 ---
@@ -441,6 +442,14 @@ import type {
   SendEmailResult,
 } from '@fmontoya/aws-ses-adapter';
 ```
+
+---
+
+## Contributing
+
+Contributions are welcome! Please read the [Contributing Guide](./CONTRIBUTING.md) to get started.
+
+This project follows the [Contributor Covenant](./CODE_OF_CONDUCT.md) code of conduct.
 
 ---
 
