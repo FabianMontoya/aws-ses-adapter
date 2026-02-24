@@ -1,5 +1,10 @@
 # @fmontoya/aws-ses-adapter
 
+[![npm version](https://img.shields.io/npm/v/@fmontoya/aws-ses-adapter)](https://www.npmjs.com/package/@fmontoya/aws-ses-adapter)
+[![npm downloads](https://img.shields.io/npm/dm/@fmontoya/aws-ses-adapter)](https://www.npmjs.com/package/@fmontoya/aws-ses-adapter)
+[![license](https://img.shields.io/npm/l/@fmontoya/aws-ses-adapter)](./LICENSE)
+[![node](https://img.shields.io/node/v/@fmontoya/aws-ses-adapter)](https://www.npmjs.com/package/@fmontoya/aws-ses-adapter)
+
 A lightweight TypeScript adapter that simplifies the [AWS SES](https://aws.amazon.com/ses/) email sending API for Node.js.
 
 - **Zero-boilerplate** — one `init()` call, then just `sendEmail()`
