@@ -4,10 +4,12 @@ on:
   push:
     tags:
       - "v*"
+  workflow_dispatch:
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.actor == github.repository_owner
     permissions:
       contents: read
       id-token: write
