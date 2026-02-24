@@ -1,15 +1,14 @@
-name: Publish to npm
+name: Publish Package to npmjs
 
 on:
-  push:
-    tags:
-      - "v*"
+  release:
+    types: [published]
   workflow_dispatch:
 
 jobs:
   publish:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' || github.actor == github.repository_owner
+    if: github.event_name == 'release' || github.actor == github.repository_owner
     permissions:
       contents: read
       id-token: write
@@ -38,6 +37,6 @@ jobs:
         run: pnpm lint
 
       - name: Publish
-        run: pnpm publish --no-git-checks
+        run: pnpm publish --no-git-checks --provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
