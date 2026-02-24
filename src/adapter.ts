@@ -10,8 +10,8 @@ import type {
   SESClient,
 } from '@aws-sdk/client-ses';
 import { SendEmailCommand, SendRawEmailCommand } from '@aws-sdk/client-ses';
-import { buildSesClient } from './client.js';
-import { SesConfigError, SesSendError, SesValidationError } from './errors.js';
+import { buildSesClient } from './client';
+import { SesConfigError, SesSendError, SesValidationError } from './errors';
 import type {
   EmailAttachment,
   ResolvedSesAdapterConfig,
@@ -19,7 +19,7 @@ import type {
   SendEmailResult,
   SendEmailWithAttachmentsOptions,
   SesAdapterConfig,
-} from './types.js';
+} from './types';
 
 /**
  * Resolves the adapter configuration by merging user-provided values with
@@ -223,6 +223,77 @@ export class SesAdapter {
   }
 
   /**
+   * Validates that at least one body content field (`html` or `text`) is provided.
+   *
+   * @param options - Object containing optional `html` and `text` fields.
+   * @throws {SesValidationError} When neither field is present.
+   *
+   * @internal
+   */
+  private validateBodyOptions(options: { html?: string; text?: string }): void {
+    if (!options.html && !options.text) {
+      throw new SesValidationError(
+        'At least one of "html" or "text" must be provided.',
+      );
+    }
+  }
+
+  /**
+   * Resolves the sender address from the per-call option or the adapter default.
+   *
+   * @param from - The per-call "from" address, if provided.
+   * @returns The resolved sender address.
+   * @throws {SesValidationError} When no sender address can be determined.
+   *
+   * @internal
+   */
+  private resolveFrom(from?: string): string {
+    const resolved = from ?? this.config.defaultFrom;
+    if (!resolved) {
+      throw new SesValidationError(
+        'A sender address is required. Provide "from" in the options or set "defaultFrom" during init().',
+      );
+    }
+    return resolved;
+  }
+
+  /**
+   * Dispatches a raw MIME message via `SendRawEmailCommand`.
+   *
+   * @param rawMessage - The raw MIME string to send.
+   * @param errorContext - Human-readable context prepended to error messages.
+   * @returns A promise resolving to a {@link SendEmailResult}.
+   * @throws {SesSendError} When the AWS SES API call fails.
+   *
+   * @internal
+   */
+  private async dispatchRawEmail(
+    rawMessage: string,
+    errorContext: string,
+  ): Promise<SendEmailResult> {
+    const params: SendRawEmailCommandInput = {
+      RawMessage: {
+        Data: Buffer.from(rawMessage),
+      },
+    };
+
+    try {
+      const command = new SendRawEmailCommand(params);
+      const response = await this.sesClient.send(command);
+
+      return {
+        success: true,
+        messageId: response.MessageId,
+      };
+    } catch (error) {
+      throw new SesSendError(
+        `${errorContext}: ${error instanceof Error ? error.message : String(error)}`,
+        error,
+      );
+    }
+  }
+
+  /**
    * Sends an email using AWS SES.
    *
    * At least one of `options.html` or `options.text` must be provided.
@@ -246,18 +317,9 @@ export class SesAdapter {
    * ```
    */
   async sendEmail(options: SendEmailOptions): Promise<SendEmailResult> {
-    if (!options.html && !options.text) {
-      throw new SesValidationError(
-        'At least one of "html" or "text" must be provided in SendEmailOptions.',
-      );
-    }
+    this.validateBodyOptions(options);
 
-    const from = options.from ?? this.config.defaultFrom;
-    if (!from) {
-      throw new SesValidationError(
-        'A sender address is required. Provide "from" in SendEmailOptions or set "defaultFrom" during init().',
-      );
-    }
+    const from = this.resolveFrom(options.from);
 
     const toAddresses = toArray(options.to);
 
@@ -332,26 +394,7 @@ export class SesAdapter {
       throw new SesValidationError('rawMessage cannot be empty.');
     }
 
-    const params: SendRawEmailCommandInput = {
-      RawMessage: {
-        Data: Buffer.from(rawMessage),
-      },
-    };
-
-    try {
-      const command = new SendRawEmailCommand(params);
-      const response = await this.sesClient.send(command);
-
-      return {
-        success: true,
-        messageId: response.MessageId,
-      };
-    } catch (error) {
-      throw new SesSendError(
-        `Failed to send raw email: ${error instanceof Error ? error.message : String(error)}`,
-        error,
-      );
-    }
+    return this.dispatchRawEmail(rawMessage, 'Failed to send raw email');
   }
 
   /**
@@ -388,11 +431,7 @@ export class SesAdapter {
   async sendEmailWithAttachments(
     options: SendEmailWithAttachmentsOptions,
   ): Promise<SendEmailResult> {
-    if (!options.html && !options.text) {
-      throw new SesValidationError(
-        'At least one of "html" or "text" must be provided in SendEmailWithAttachmentsOptions.',
-      );
-    }
+    this.validateBodyOptions(options);
 
     if (!options.attachments || options.attachments.length === 0) {
       throw new SesValidationError(
@@ -400,36 +439,14 @@ export class SesAdapter {
       );
     }
 
-    const from = options.from ?? this.config.defaultFrom;
-    if (!from) {
-      throw new SesValidationError(
-        'A sender address is required. Provide "from" in SendEmailWithAttachmentsOptions or set "defaultFrom" during init().',
-      );
-    }
-
-    const rawMessage = buildMimeMessage(options, from);
+    const from = this.resolveFrom(options.from);
     const toAddresses = toArray(options.to);
+    const rawMessage = buildMimeMessage(options, from);
 
-    const params: SendRawEmailCommandInput = {
-      RawMessage: {
-        Data: Buffer.from(rawMessage),
-      },
-    };
-
-    try {
-      const command = new SendRawEmailCommand(params);
-      const response = await this.sesClient.send(command);
-
-      return {
-        success: true,
-        messageId: response.MessageId,
-      };
-    } catch (error) {
-      throw new SesSendError(
-        `Failed to send email with attachments to ${toAddresses.join(', ')}: ${error instanceof Error ? error.message : String(error)}`,
-        error,
-      );
-    }
+    return this.dispatchRawEmail(
+      rawMessage,
+      `Failed to send email with attachments to ${toAddresses.join(', ')}`,
+    );
   }
 
   /**
