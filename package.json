@@ -55,6 +55,8 @@
     "@aws-sdk/client-ses": "^3.996.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^20.4.3",
+    "@commitlint/config-conventional": "^20.4.3",
     "@eslint/js": "^10.0.1",
     "@types/node": "^24.10.13",
     "eslint": "^10.0.2",
