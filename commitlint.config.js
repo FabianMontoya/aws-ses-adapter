@@ -86,6 +86,5 @@ module.exports = {
   },
 
   // Custom help URL for your project
-  helpUrl:
-    'https://github.com/FabianMontoya/aws-ses-adapter#commit-conventions',
+  helpUrl: 'https://www.conventionalcommits.org/en/v1.0.0/',
 };

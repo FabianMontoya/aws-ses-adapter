@@ -1,0 +1,5 @@
+echo "\n📝 Running commit-msg validations...\n"
+
+echo "\n🧹 Executing commit linting...\n"
+
+pnpm exec commitlint --edit $1
