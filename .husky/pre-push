@@ -1,0 +1,15 @@
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+PROTECTED_BRANCHES="^(main|develop)"
+
+echo "\n🚀 Pre-push validations running...\n"
+
+if [[ "$BRANCH" =~ $PROTECTED_BRANCHES ]]; then
+  echo "\n🚫 Cannot push to remote $BRANCH branch, please create your own branch and use PR.\n"
+  exit 1
+fi
+
+# TODO: Implement unit test and e2e test for the project
+echo "\n🧩 Running unit test...\n"
+#pnpm run test:unit
+
+echo "📤 Pushing changes to remote branch $BRANCH\n"
