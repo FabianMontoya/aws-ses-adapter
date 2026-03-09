@@ -4,7 +4,7 @@
     "color": "008000"
   },
   "CHECKS": {
-    "regexp": "^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\\([^)]+\\))?!?: .{1,88}$",
+    "regexp": "^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\\([^)]+\\))?!?: .{10,100}$",
     "regexpFlags": "",
     "ignoreLabels": ["dependabot", "dependencies"]
   },

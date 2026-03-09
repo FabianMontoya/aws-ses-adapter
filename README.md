@@ -105,14 +105,14 @@ console.log('Sent! Message ID:', result.messageId);
 
 ### Via `init()` options
 
-| Option                          | Type     | Required | Description                                                   |
-| ------------------------------- | -------- | -------- | ------------------------------------------------------------- |
-| `region`                        | `string` | Yes\*    | AWS region where SES is configured (e.g. `us-east-1`).        |
-| `credentials.accessKeyId`       | `string` | Yes\*    | AWS access key ID.                                            |
-| `credentials.secretAccessKey`   | `string` | Yes\*    | AWS secret access key.                                        |
-| `defaultFrom`                   | `string` | No       | Default "From" address used when `from` is omitted per-email. |
-| `accessKeyId` _(deprecated)_    | `string` | —        | Use `credentials.accessKeyId` instead.                        |
-| `secretAccessKey` _(deprecated)_| `string` | —        | Use `credentials.secretAccessKey` instead.                    |
+| Option                           | Type     | Required | Description                                                   |
+| -------------------------------- | -------- | -------- | ------------------------------------------------------------- |
+| `region`                         | `string` | Yes\*    | AWS region where SES is configured (e.g. `us-east-1`).        |
+| `credentials.accessKeyId`        | `string` | Yes\*    | AWS access key ID.                                            |
+| `credentials.secretAccessKey`    | `string` | Yes\*    | AWS secret access key.                                        |
+| `defaultFrom`                    | `string` | No       | Default "From" address used when `from` is omitted per-email. |
+| `accessKeyId` _(deprecated)_     | `string` | —        | Use `credentials.accessKeyId` instead.                        |
+| `secretAccessKey` _(deprecated)_ | `string` | —        | Use `credentials.secretAccessKey` instead.                    |
 
 \* Required unless the corresponding environment variable is set.
 

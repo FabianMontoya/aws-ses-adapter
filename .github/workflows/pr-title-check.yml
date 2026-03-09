@@ -20,15 +20,14 @@ jobs:
       - name: Validate PR Title
         id: check
         uses: thehanimo/pr-title-checker@v1.4.3
-        continue-on-error: true
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           pass_on_octokit_error: false
           configuration_path: .github/workflows/pr-title-checker-config.json
 
-      # ❌ If invalid → comment with instructions
+      # ❌ If invalid or action errored → comment with instructions
       - name: Comment when PR title is invalid
-        if: steps.check.outputs.success == 'false'
+        if: always() && steps.check.outputs.success != 'true'
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: "PR Title Check"
@@ -53,12 +52,12 @@ jobs:
             - `refactor!: rename SendEmailOptions to SesEmailOptions`
 
             ---
-
+            Minimum 10 characters.
             Maximum 100 characters total.
 
       # ✅ If valid → comment success
       - name: Comment when PR title is valid
-        if: steps.check.outputs.success == 'true'
+        if: always() && steps.check.outputs.success == 'true'
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: "PR Title Check"
@@ -69,7 +68,7 @@ jobs:
             The PR title follows the required convention.
             Thank you for keeping the repository consistent.
 
-      # 🔥 Finally fail the job if invalid (for branch protection)
+      # 🔥 Finally fail the job if invalid or action errored (for branch protection)
       - name: Fail workflow if invalid
-        if: steps.check.outputs.success == 'false'
+        if: always() && steps.check.outputs.success != 'true'
         run: exit 1

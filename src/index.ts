@@ -11,8 +11,10 @@
  *
  * init({
  *   region: 'us-east-1',
- *   accessKeyId: 'YOUR_KEY',
- *   secretAccessKey: 'YOUR_SECRET',
+ *   credentials: {
+ *     accessKeyId: 'YOUR_KEY',
+ *     secretAccessKey: 'YOUR_SECRET',
+ *   },
  *   defaultFrom: 'noreply@example.com',
  * });
  * ```
@@ -73,8 +75,9 @@ function getInstance(): SesAdapter {
  * which is useful for reconfiguration during testing.
  *
  * Credentials are resolved in the following order:
- * 1. Values provided in the `config` argument.
- * 2. Environment variables (`AWS_SES_REGION`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`).
+ * 1. `config.credentials.accessKeyId` / `config.credentials.secretAccessKey`
+ * 2. `config.accessKeyId` / `config.secretAccessKey` _(deprecated)_
+ * 3. Environment variables (`AWS_SES_REGION`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`)
  *
  * @param config - Optional configuration. Omit any field to fall back to environment variables.
  * @throws {SesConfigError} When required credentials cannot be resolved.
@@ -84,8 +87,10 @@ function getInstance(): SesAdapter {
  * // Using explicit credentials
  * init({
  *   region: 'us-east-1',
- *   accessKeyId: process.env.MY_KEY_ID,
- *   secretAccessKey: process.env.MY_SECRET,
+ *   credentials: {
+ *     accessKeyId: process.env.MY_KEY_ID,
+ *     secretAccessKey: process.env.MY_SECRET,
+ *   },
  *   defaultFrom: 'no-reply@myapp.com',
  * });
  *

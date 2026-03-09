@@ -41,9 +41,9 @@ export interface SesAdapterConfig {
    * ```
    */
   credentials?: {
-    /** AWS access key ID. Falls back to the `AWS_ACCESS_KEY_ID` environment variable if not provided. */
+    /** AWS access key ID. Required when `credentials` is provided. */
     accessKeyId: string;
-    /** AWS secret access key. Falls back to the `AWS_SECRET_ACCESS_KEY` environment variable if not provided. */
+    /** AWS secret access key. Required when `credentials` is provided. */
     secretAccessKey: string;
   };
 
