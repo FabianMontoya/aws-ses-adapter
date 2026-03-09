@@ -12,6 +12,8 @@ jobs:
     # Skip this check for dependabot and other automated PRs
     if: github.actor != 'dependabot[bot]' && github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
 
     steps:
       - name: Validate PR Title
