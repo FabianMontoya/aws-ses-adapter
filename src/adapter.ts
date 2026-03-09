@@ -35,9 +35,14 @@ function resolveConfig(
   config: SesAdapterConfig = {},
 ): ResolvedSesAdapterConfig {
   const region = config.region ?? process.env['AWS_SES_REGION'];
-  const accessKeyId = config.accessKeyId ?? process.env['AWS_ACCESS_KEY_ID'];
+  const accessKeyId =
+    config.credentials?.accessKeyId ??
+    config.accessKeyId ??
+    process.env['AWS_ACCESS_KEY_ID'];
   const secretAccessKey =
-    config.secretAccessKey ?? process.env['AWS_SECRET_ACCESS_KEY'];
+    config.credentials?.secretAccessKey ??
+    config.secretAccessKey ??
+    process.env['AWS_SECRET_ACCESS_KEY'];
   const defaultFrom = config.defaultFrom ?? process.env['AWS_SES_FROM_EMAIL'];
 
   if (!region) {
