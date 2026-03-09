@@ -1,4 +1,4 @@
-name: Build
+name: Typecheck and Build Testing
 permissions:
   contents: read
 on:
