@@ -7,19 +7,21 @@
  *
  * **1. Initialize once** (at application startup):
  * ```ts
- * import { init } from 'aws-ses-adapter';
+ * import { init } from '@fmontoya/aws-ses-adapter';
  *
  * init({
  *   region: 'us-east-1',
- *   accessKeyId: 'YOUR_KEY',
- *   secretAccessKey: 'YOUR_SECRET',
+ *   credentials: {
+ *     accessKeyId: 'YOUR_KEY',
+ *     secretAccessKey: 'YOUR_SECRET',
+ *   },
  *   defaultFrom: 'noreply@example.com',
  * });
  * ```
  *
  * **2. Use anywhere** in your application:
  * ```ts
- * import { sendEmail } from 'aws-ses-adapter';
+ * import { sendEmail } from '@fmontoya/aws-ses-adapter';
  *
  * await sendEmail({
  *   to: 'user@example.com',
@@ -73,8 +75,9 @@ function getInstance(): SesAdapter {
  * which is useful for reconfiguration during testing.
  *
  * Credentials are resolved in the following order:
- * 1. Values provided in the `config` argument.
- * 2. Environment variables (`AWS_SES_REGION`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`).
+ * 1. `config.credentials.accessKeyId` / `config.credentials.secretAccessKey`
+ * 2. `config.accessKeyId` / `config.secretAccessKey` _(deprecated)_
+ * 3. Environment variables (`AWS_SES_REGION`, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`)
  *
  * @param config - Optional configuration. Omit any field to fall back to environment variables.
  * @throws {SesConfigError} When required credentials cannot be resolved.
@@ -84,8 +87,10 @@ function getInstance(): SesAdapter {
  * // Using explicit credentials
  * init({
  *   region: 'us-east-1',
- *   accessKeyId: process.env.MY_KEY_ID,
- *   secretAccessKey: process.env.MY_SECRET,
+ *   credentials: {
+ *     accessKeyId: process.env.MY_KEY_ID,
+ *     secretAccessKey: process.env.MY_SECRET,
+ *   },
  *   defaultFrom: 'no-reply@myapp.com',
  * });
  *
@@ -111,7 +116,7 @@ export function init(config: SesAdapterConfig = {}): void {
  *
  * @example
  * ```ts
- * import { sendEmail } from 'aws-ses-adapter';
+ * import { sendEmail } from '@fmontoya/aws-ses-adapter';
  *
  * const result = await sendEmail({
  *   to: 'alice@example.com',
@@ -147,7 +152,7 @@ export async function sendEmail(
  *
  * @example
  * ```ts
- * import { sendEmailWithAttachments } from 'aws-ses-adapter';
+ * import { sendEmailWithAttachments } from '@fmontoya/aws-ses-adapter';
  * import { readFileSync } from 'fs';
  *
  * const result = await sendEmailWithAttachments({
@@ -186,7 +191,7 @@ export async function sendEmailWithAttachments(
  *
  * @example
  * ```ts
- * import { sendRawEmail } from 'aws-ses-adapter';
+ * import { sendRawEmail } from '@fmontoya/aws-ses-adapter';
  *
  * const mime = [
  *   'From: sender@example.com',
@@ -214,7 +219,7 @@ export async function sendRawEmail(
  *
  * @example
  * ```ts
- * import { isInitialized } from 'aws-ses-adapter';
+ * import { isInitialized } from '@fmontoya/aws-ses-adapter';
  *
  * if (!isInitialized()) {
  *   init();
@@ -233,7 +238,7 @@ export function isInitialized(): boolean {
  *
  * @example
  * ```ts
- * import { hasDefaultFrom } from 'aws-ses-adapter';
+ * import { hasDefaultFrom } from '@fmontoya/aws-ses-adapter';
  *
  * console.log(hasDefaultFrom()); // => true
  * ```
@@ -251,7 +256,7 @@ export function hasDefaultFrom(): boolean {
  *
  * @example
  * ```ts
- * import { getDefaultFrom } from 'aws-ses-adapter';
+ * import { getDefaultFrom } from '@fmontoya/aws-ses-adapter';
  *
  * const from = getDefaultFrom();
  * // => 'noreply@example.com' or undefined
@@ -269,7 +274,7 @@ export function getDefaultFrom(): string | undefined {
  *
  * @example
  * ```ts
- * import { getRegion } from 'aws-ses-adapter';
+ * import { getRegion } from '@fmontoya/aws-ses-adapter';
  *
  * console.log(getRegion()); // => 'us-east-1'
  * ```

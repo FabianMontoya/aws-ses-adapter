@@ -10,10 +10,13 @@
  *
  * @example
  * ```ts
+ * // Recommended: use the credentials object
  * const config: SesAdapterConfig = {
  *   region: 'us-east-1',
- *   accessKeyId: 'AKIAIOSFODNN7EXAMPLE',
- *   secretAccessKey: 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
+ *   credentials: {
+ *     accessKeyId: 'AKIAIOSFODNN7EXAMPLE',
+ *     secretAccessKey: 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
+ *   },
  *   defaultFrom: 'noreply@example.com',
  * };
  * ```
@@ -26,14 +29,37 @@ export interface SesAdapterConfig {
   region?: string;
 
   /**
+   * AWS credentials for authentication.
+   * Takes precedence over the deprecated top-level `accessKeyId` and `secretAccessKey` fields.
+   *
+   * @example
+   * ```ts
+   * credentials: {
+   *   accessKeyId: 'AKIAIOSFODNN7EXAMPLE',
+   *   secretAccessKey: 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
+   * }
+   * ```
+   */
+  credentials?: {
+    /** AWS access key ID. Required when `credentials` is provided. */
+    accessKeyId: string;
+    /** AWS secret access key. Required when `credentials` is provided. */
+    secretAccessKey: string;
+  };
+
+  /**
    * AWS access key ID for authentication.
    * Falls back to the `AWS_ACCESS_KEY_ID` environment variable if not provided.
+   *
+   * @deprecated Use `credentials.accessKeyId` instead.
    */
   accessKeyId?: string;
 
   /**
    * AWS secret access key for authentication.
    * Falls back to the `AWS_SECRET_ACCESS_KEY` environment variable if not provided.
+   *
+   * @deprecated Use `credentials.secretAccessKey` instead.
    */
   secretAccessKey?: string;
 

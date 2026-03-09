@@ -35,9 +35,14 @@ function resolveConfig(
   config: SesAdapterConfig = {},
 ): ResolvedSesAdapterConfig {
   const region = config.region ?? process.env['AWS_SES_REGION'];
-  const accessKeyId = config.accessKeyId ?? process.env['AWS_ACCESS_KEY_ID'];
+  const accessKeyId =
+    config.credentials?.accessKeyId ??
+    config.accessKeyId ??
+    process.env['AWS_ACCESS_KEY_ID'];
   const secretAccessKey =
-    config.secretAccessKey ?? process.env['AWS_SECRET_ACCESS_KEY'];
+    config.credentials?.secretAccessKey ??
+    config.secretAccessKey ??
+    process.env['AWS_SECRET_ACCESS_KEY'];
   const defaultFrom = config.defaultFrom ?? process.env['AWS_SES_FROM_EMAIL'];
 
   if (!region) {
@@ -47,12 +52,12 @@ function resolveConfig(
   }
   if (!accessKeyId) {
     throw new SesConfigError(
-      'AWS access key ID is required. Provide it via config.accessKeyId or the AWS_ACCESS_KEY_ID environment variable.',
+      'AWS access key ID is required. Provide it via config.credentials.accessKeyId, or the AWS_ACCESS_KEY_ID environment variable.',
     );
   }
   if (!secretAccessKey) {
     throw new SesConfigError(
-      'AWS secret access key is required. Provide it via config.secretAccessKey or the AWS_SECRET_ACCESS_KEY environment variable.',
+      'AWS secret access key is required. Provide it via config.credentials.secretAccessKey, or the AWS_SECRET_ACCESS_KEY environment variable.',
     );
   }
 

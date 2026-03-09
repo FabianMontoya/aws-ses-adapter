@@ -76,8 +76,10 @@ import { init } from '@fmontoya/aws-ses-adapter';
 
 init({
   region: 'us-east-1',
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
   defaultFrom: 'noreply@example.com',
 });
 ```
@@ -103,12 +105,14 @@ console.log('Sent! Message ID:', result.messageId);
 
 ### Via `init()` options
 
-| Option            | Type     | Required | Description                                                   |
-| ----------------- | -------- | -------- | ------------------------------------------------------------- |
-| `region`          | `string` | Yes\*    | AWS region where SES is configured (e.g. `us-east-1`).        |
-| `accessKeyId`     | `string` | Yes\*    | AWS access key ID.                                            |
-| `secretAccessKey` | `string` | Yes\*    | AWS secret access key.                                        |
-| `defaultFrom`     | `string` | No       | Default "From" address used when `from` is omitted per-email. |
+| Option                           | Type     | Required | Description                                                   |
+| -------------------------------- | -------- | -------- | ------------------------------------------------------------- |
+| `region`                         | `string` | Yes\*    | AWS region where SES is configured (e.g. `us-east-1`).        |
+| `credentials.accessKeyId`        | `string` | Yes\*    | AWS access key ID.                                            |
+| `credentials.secretAccessKey`    | `string` | Yes\*    | AWS secret access key.                                        |
+| `defaultFrom`                    | `string` | No       | Default "From" address used when `from` is omitted per-email. |
+| `accessKeyId` _(deprecated)_     | `string` | —        | Use `credentials.accessKeyId` instead.                        |
+| `secretAccessKey` _(deprecated)_ | `string` | —        | Use `credentials.secretAccessKey` instead.                    |
 
 \* Required unless the corresponding environment variable is set.
 
@@ -143,8 +147,10 @@ import { init } from '@fmontoya/aws-ses-adapter';
 
 init({
   region: 'us-east-1',
-  accessKeyId: 'AKIAIOSFODNN7EXAMPLE',
-  secretAccessKey: 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
+  credentials: {
+    accessKeyId: 'AKIAIOSFODNN7EXAMPLE',
+    secretAccessKey: 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
+  },
   defaultFrom: 'noreply@example.com',
 });
 ```
@@ -283,8 +289,10 @@ import { SesAdapter } from '@fmontoya/aws-ses-adapter';
 
 const adapter = new SesAdapter({
   region: 'eu-west-1',
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
   defaultFrom: 'noreply@myapp.com',
 });
 
@@ -399,8 +407,10 @@ import { EmailService } from './email.service';
         const { SesAdapter } = require('@fmontoya/aws-ses-adapter');
         return new SesAdapter({
           region: process.env.AWS_SES_REGION,
-          accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+          credentials: {
+            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+          },
           defaultFrom: process.env.AWS_SES_FROM_EMAIL,
         });
       },

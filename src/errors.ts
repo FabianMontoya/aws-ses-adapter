@@ -11,7 +11,7 @@
  *
  * @example
  * ```ts
- * import { sendEmail } from 'aws-ses-adapter';
+ * import { sendEmail } from '@fmontoya/aws-ses-adapter';
  *
  * // Calling sendEmail before init() throws this error
  * try {
@@ -41,7 +41,7 @@ export class SesNotInitializedError extends Error {
  *
  * @example
  * ```ts
- * import { init } from 'aws-ses-adapter';
+ * import { init } from '@fmontoya/aws-ses-adapter';
  *
  * try {
  *   init({}); // No region, no env vars set
@@ -70,7 +70,7 @@ export class SesConfigError extends Error {
  *
  * @example
  * ```ts
- * import { sendEmail, SesSendError } from 'aws-ses-adapter';
+ * import { sendEmail, SesSendError } from '@fmontoya/aws-ses-adapter';
  *
  * try {
  *   await sendEmail({ to: 'user@example.com', subject: 'Hi', text: 'Hello' });
@@ -101,7 +101,7 @@ export class SesSendError extends Error {
  *
  * @example
  * ```ts
- * import { sendEmail, SesValidationError } from 'aws-ses-adapter';
+ * import { sendEmail, SesValidationError } from '@fmontoya/aws-ses-adapter';
  *
  * try {
  *   // Missing both html and text
