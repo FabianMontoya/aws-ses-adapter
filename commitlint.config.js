@@ -83,6 +83,7 @@ module.exports = {
 
     // Enforce a maximum commit header length
     'header-max-length': [2, 'always', 100], // Commit header max 100 chars
+    'body-max-line-length': [1, 'always', 1000], // Warn if body lines exceed 1000 chars
   },
 
   // Custom help URL for your project
