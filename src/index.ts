@@ -7,7 +7,7 @@
  *
  * **1. Initialize once** (at application startup):
  * ```ts
- * import { init } from 'aws-ses-adapter';
+ * import { init } from '@fmontoya/aws-ses-adapter';
  *
  * init({
  *   region: 'us-east-1',
@@ -21,7 +21,7 @@
  *
  * **2. Use anywhere** in your application:
  * ```ts
- * import { sendEmail } from 'aws-ses-adapter';
+ * import { sendEmail } from '@fmontoya/aws-ses-adapter';
  *
  * await sendEmail({
  *   to: 'user@example.com',
@@ -116,7 +116,7 @@ export function init(config: SesAdapterConfig = {}): void {
  *
  * @example
  * ```ts
- * import { sendEmail } from 'aws-ses-adapter';
+ * import { sendEmail } from '@fmontoya/aws-ses-adapter';
  *
  * const result = await sendEmail({
  *   to: 'alice@example.com',
@@ -152,7 +152,7 @@ export async function sendEmail(
  *
  * @example
  * ```ts
- * import { sendEmailWithAttachments } from 'aws-ses-adapter';
+ * import { sendEmailWithAttachments } from '@fmontoya/aws-ses-adapter';
  * import { readFileSync } from 'fs';
  *
  * const result = await sendEmailWithAttachments({
@@ -191,7 +191,7 @@ export async function sendEmailWithAttachments(
  *
  * @example
  * ```ts
- * import { sendRawEmail } from 'aws-ses-adapter';
+ * import { sendRawEmail } from '@fmontoya/aws-ses-adapter';
  *
  * const mime = [
  *   'From: sender@example.com',
@@ -219,7 +219,7 @@ export async function sendRawEmail(
  *
  * @example
  * ```ts
- * import { isInitialized } from 'aws-ses-adapter';
+ * import { isInitialized } from '@fmontoya/aws-ses-adapter';
  *
  * if (!isInitialized()) {
  *   init();
@@ -238,7 +238,7 @@ export function isInitialized(): boolean {
  *
  * @example
  * ```ts
- * import { hasDefaultFrom } from 'aws-ses-adapter';
+ * import { hasDefaultFrom } from '@fmontoya/aws-ses-adapter';
  *
  * console.log(hasDefaultFrom()); // => true
  * ```
@@ -256,7 +256,7 @@ export function hasDefaultFrom(): boolean {
  *
  * @example
  * ```ts
- * import { getDefaultFrom } from 'aws-ses-adapter';
+ * import { getDefaultFrom } from '@fmontoya/aws-ses-adapter';
  *
  * const from = getDefaultFrom();
  * // => 'noreply@example.com' or undefined
@@ -274,7 +274,7 @@ export function getDefaultFrom(): string | undefined {
  *
  * @example
  * ```ts
- * import { getRegion } from 'aws-ses-adapter';
+ * import { getRegion } from '@fmontoya/aws-ses-adapter';
  *
  * console.log(getRegion()); // => 'us-east-1'
  * ```
