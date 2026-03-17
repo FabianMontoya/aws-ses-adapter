@@ -28,7 +28,7 @@ jobs:
       # ❌ If invalid or action errored → comment with instructions
       - name: Comment when PR title is invalid
         if: always() && steps.check.outputs.success != 'true'
-        uses: marocchino/sticky-pull-request-comment@v2
+        uses: marocchino/sticky-pull-request-comment@v3
         with:
           header: "PR Title Check"
           recreate: true
@@ -58,7 +58,7 @@ jobs:
       # ✅ If valid → comment success
       - name: Comment when PR title is valid
         if: always() && steps.check.outputs.success == 'true'
-        uses: marocchino/sticky-pull-request-comment@v2
+        uses: marocchino/sticky-pull-request-comment@v3
         with:
           header: "PR Title Check"
           recreate: true
